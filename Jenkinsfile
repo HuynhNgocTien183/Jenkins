@@ -31,7 +31,7 @@ pipeline{
 
     post{
         success{
-            archiveArtifacts artifacts: '/my-react-app/dist/**/*', fingerprint: true, allowEmptyArchive: false
+            archiveArtifacts artifacts: 'my-react-app/dist/**/*', fingerprint: true, allowEmptyArchive: false
         }
         failure{
             echo 'Build failed. Please check the logs for details.'
