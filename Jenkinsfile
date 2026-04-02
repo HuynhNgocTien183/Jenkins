@@ -29,7 +29,7 @@ pipeline{
 
     post{
         success{
-            archiveArtifacts: 'dist/**/*', fingerprint: true, allowEmptyArchive: false
+            archiveArtifacts artifacts: 'dist/**/*', fingerprint: true, allowEmptyArchive: false
 
         }
         failure{
