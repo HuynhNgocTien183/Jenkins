@@ -19,21 +19,19 @@ pipeline{
                 }
             }
             steps{
-                sh 'node -v && npm -v'
-                dir('../my-react-app'){
-                    
+                dir('my-react-app'){
+                    sh 'node -v && npm -v'
                     sh 'npm ci'
-                  
+                    sh 'npm run lint'
+                    sh 'npm run build'
                 }
-                sh 'npm run lint'
-                sh 'npm run build'
             }
         }
     }
 
     post{
         success{
-            archiveArtifacts artifacts: 'dist/**/*', fingerprint: true, allowEmptyArchive: false
+            archiveArtifacts artifacts: '/my-react-app/dist/**/*', fingerprint: true, allowEmptyArchive: false
         }
         failure{
             echo 'Build failed. Please check the logs for details.'
