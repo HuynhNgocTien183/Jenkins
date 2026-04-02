@@ -1,58 +1,39 @@
 pipeline{
-    agent{
-        docker{
-            image 'node:18-alpine'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
+    actions{
+        timeout(time:0, unit: 'MINUTES')
+        timestamps{}
+    }
     stages{
         stage('Checkout'){
             steps{
-                git 'https://github.com/HuynhNgocTien183/Jenkins.git'
+                checkout scm
             }
         }
-        stage('Install'){
-            steps{
-                sh 'npm install'
+        stage('Install & Lint & Build'){
+            agent{
+                docker{
+                    image 'node:22-alpine'
+                    reuseNode true
+                }
             }
-        }
-
-        stage('Build'){
             steps{
+                sh 'node -v && npm -v'
+                sh 'npm ci'
+                sh 'npm run lint'
                 sh 'npm run build'
             }
         }
-
-        stage('Test'){
-            steps{
-                sh 'npm test'
-            }
-        }
-        
-        stage('Publish'){
-            steps{
-                sh 'echo publish'
-            }
-        }
-
-         stage('Deploy') { 
-            steps { 
-                sh 'echo deploy' 
-            }
-        }
-    }      
-        
+    }
 
     post{
-        always{
-            sh 'echo always'
-        }
         success{
-            sh 'echo success'
+            archiveArtifacts: 'dist/**/*', fingerprint: true, allowEmptyArchive: false
+
         }
         failure{
-            sh 'echo failure'
-        }
+            echo 'Build failed. Please check the logs for details.'
+        } 
     }
 }
