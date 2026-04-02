@@ -2,8 +2,8 @@ pipeline{
     agent any
 
     options{
-        timeout(time:0, unit: 'MINUTES')
-        timestamps{}
+        timeout(time: 10, unit: 'MINUTES')
+        timestamps()
     }
     stages{
         stage('Checkout'){
@@ -30,7 +30,6 @@ pipeline{
     post{
         success{
             archiveArtifacts artifacts: 'dist/**/*', fingerprint: true, allowEmptyArchive: false
-
         }
         failure{
             echo 'Build failed. Please check the logs for details.'
