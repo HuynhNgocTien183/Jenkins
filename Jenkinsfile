@@ -6,6 +6,7 @@ pipeline{
     }
 
     //abcdef
+    //test trigger
     options{
         timeout(time: 10, unit: 'MINUTES')
         timestamps()
