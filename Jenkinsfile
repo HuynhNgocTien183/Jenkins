@@ -20,7 +20,7 @@ pipeline{
             }
             steps{
                 sh 'node -v && npm -v'
-                sh 'npm ci'
+                sh 'npm install'
                 sh 'npm run lint'
                 sh 'npm run build'
             }
