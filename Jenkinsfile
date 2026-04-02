@@ -19,12 +19,14 @@ pipeline{
                 }
             }
             steps{
+                sh 'node -v && npm -v'
                 dir('../my-react-app'){
-                    sh 'node -v && npm -v'
+                    
                     sh 'npm ci'
-                    sh 'npm run lint'
-                    sh 'npm run build'
+                  
                 }
+                sh 'npm run lint'
+                sh 'npm run build'
             }
         }
     }
